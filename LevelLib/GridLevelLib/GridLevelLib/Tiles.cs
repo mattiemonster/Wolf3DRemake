@@ -1,88 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace GridLevelLib
 {
     [Serializable]
     class Tiles
     {
-        public Dictionary<int, string> tiles = new Dictionary<int, string>();
+        public Dictionary<int, TileInfo> tiles = new Dictionary<int, TileInfo>();
         public string textureFolder;
+
+        public Tiles(string textureFolder)
+        {
+            this.textureFolder = textureFolder;
+        }
 
         public void LoadTiles(string path, string texturesPath)
         {
-            tiles = DeSerializeObject<Dictionary<int, string>>(path);
+            tiles = XmlLoader.DeSerializeObject<Dictionary<int, TileInfo>>(path);
         }
 
-        public void CreateTile(string texName)
+        public void CreateTile(string tileName, string texName)
         {
-            tiles.Add(tiles.Count + 1, texName);
+            tiles.Add(tiles.Count + 1, new TileInfo(tileName, texName));
         }
 
         public void SaveTiles(string path)
         {
-            SerializeObject(tiles, path);
+            XmlLoader.SerializeObject(tiles, path);
         }
 
-        public void SerializeObject<T>(T serializableObject, string fileName)
+        public TileInfo GetTileInfo(int tileIndex)
         {
-            if (serializableObject == null) { return; }
-
-            try
-            {
-                XmlDocument xmlDocument = new XmlDocument();
-                XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    serializer.Serialize(stream, serializableObject);
-                    stream.Position = 0;
-                    xmlDocument.Load(stream);
-                    xmlDocument.Save(fileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception here
-            }
+            return tiles[tileIndex];
         }
 
-        public T DeSerializeObject<T>(string fileName)
+        public string GetTileTextureName(int tileIndex)
         {
-            if (string.IsNullOrEmpty(fileName)) { return default(T); }
-
-            T objectOut = default(T);
-
-            try
-            {
-                XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(fileName);
-                string xmlString = xmlDocument.OuterXml;
-
-                using (StringReader read = new StringReader(xmlString))
-                {
-                    Type outType = typeof(T);
-
-                    XmlSerializer serializer = new XmlSerializer(outType);
-                    using (XmlReader reader = new XmlTextReader(read))
-                    {
-                        objectOut = (T)serializer.Deserialize(reader);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception here
-            }
-
-            return objectOut;
-        }
-
-        public string GetTileTextureName(int tile)
-        {
-            return tiles[tile];
+            return tiles[tileIndex].textureName;
         }
     }
 }
