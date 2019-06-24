@@ -25,7 +25,13 @@ namespace GridLevelLib
             }
             catch (Exception ex)
             {
-                //Log exception here
+                StreamWriter file = File.CreateText(string.Format("{0}_XmlSerialisationError.log", DateTime.Now.ToString());
+                file.WriteLine(string.Format("Attempted to save object of type {0} but failed.", typeof(T).FullName));
+                file.WriteLine(string.Format("Time: {0}", DateTime.Now.ToString()));
+                file.WriteLine(string.Format("File path: {0}", fileName));
+                file.WriteLine(string.Format("Exception log: {0}", ex.Message));
+                file.Flush();
+                file.Close();
             }
         }
 
@@ -54,7 +60,13 @@ namespace GridLevelLib
             }
             catch (Exception ex)
             {
-                //Log exception here
+                StreamWriter file = File.CreateText(string.Format("{0}_XmlSerialisationError.log", DateTime.Now.ToString());
+                file.WriteLine(string.Format("Attempted to open object of type {0} but failed.", typeof(T).FullName));
+                file.WriteLine(string.Format("Time: {0}", DateTime.Now.ToString()));
+                file.WriteLine(string.Format("File path: {0}", fileName));
+                file.WriteLine(string.Format("Exception log: {0}", ex.Message));
+                file.Flush();
+                file.Close();
             }
 
             return objectOut;
