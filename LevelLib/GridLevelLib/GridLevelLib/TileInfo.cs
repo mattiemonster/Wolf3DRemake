@@ -1,6 +1,6 @@
 ﻿namespace GridLevelLib
 {
-    class TileInfo
+    public class TileInfo
     {
         public string name;
         public string textureName;

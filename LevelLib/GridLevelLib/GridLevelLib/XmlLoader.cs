@@ -5,7 +5,7 @@ using System.IO;
 
 namespace GridLevelLib
 {
-    class XmlLoader
+    public class XmlLoader
     {
         public static void SerializeObject<T>(T serializableObject, string fileName)
         {
@@ -13,23 +13,24 @@ namespace GridLevelLib
 
             try
             {
-                XmlDocument xmlDocument = new XmlDocument();
-                XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    serializer.Serialize(stream, serializableObject);
-                    stream.Position = 0;
-                    xmlDocument.Load(stream);
-                    xmlDocument.Save(fileName);
-                }
+              XmlDocument xmlDocument = new XmlDocument();
+              XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
+              using (MemoryStream stream = new MemoryStream())
+              {
+                  serializer.Serialize(stream, serializableObject);
+                  stream.Position = 0;
+                  xmlDocument.Load(stream);
+                  xmlDocument.Save(fileName);
+              }
             }
             catch (Exception ex)
             {
-                StreamWriter file = File.CreateText(string.Format("{0}_XmlSerialisationError.log", DateTime.Now.ToString());
+                StreamWriter file = File.CreateText(string.Format("{0}_XmlSerialisationError.log", DateTime.Now.ToString("dd-M-yy_HHmm")));
                 file.WriteLine(string.Format("Attempted to save object of type {0} but failed.", typeof(T).FullName));
                 file.WriteLine(string.Format("Time: {0}", DateTime.Now.ToString()));
                 file.WriteLine(string.Format("File path: {0}", fileName));
                 file.WriteLine(string.Format("Exception log: {0}", ex.Message));
+                file.WriteLine(string.Format("Inner Exception log: {0}", ex.InnerException.Message));
                 file.Flush();
                 file.Close();
             }
@@ -60,16 +61,35 @@ namespace GridLevelLib
             }
             catch (Exception ex)
             {
-                StreamWriter file = File.CreateText(string.Format("{0}_XmlSerialisationError.log", DateTime.Now.ToString());
+                StreamWriter file = File.CreateText(string.Format("{0}_XmlSerialisationError.log", DateTime.Now.ToString("dd-M-yy_HHmm")));
                 file.WriteLine(string.Format("Attempted to open object of type {0} but failed.", typeof(T).FullName));
                 file.WriteLine(string.Format("Time: {0}", DateTime.Now.ToString()));
                 file.WriteLine(string.Format("File path: {0}", fileName));
                 file.WriteLine(string.Format("Exception log: {0}", ex.Message));
+                file.WriteLine(string.Format("Inner Exception log: {0}", ex.InnerException.Message));
                 file.Flush();
                 file.Close();
             }
 
             return objectOut;
+        }
+    }
+
+    // TODO Add dictionary serialiser
+
+    public class Entry
+    {
+        public object Key;
+        public object Value;
+
+        public Entry()
+        {
+        }
+
+        public Entry(object key, object value)
+        {
+            Key = key;
+            Value = value;
         }
     }
 }
