@@ -108,6 +108,7 @@
             this.Style = MetroFramework.MetroColorStyle.Blue;
             this.Text = "Grid Level Editor";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.Load += new System.EventHandler(this.Menu_Load);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

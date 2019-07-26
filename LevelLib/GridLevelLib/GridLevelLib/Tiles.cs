@@ -8,12 +8,17 @@ namespace GridLevelLib
     [Serializable]
     public class Tiles
     {
-        public Dictionary<int, TileInfo> tiles = new Dictionary<int, TileInfo>();
+        public SerializableDictionary<string, TileInfo> tiles = new SerializableDictionary<string, TileInfo>();
         public string textureFolder;
+        public string oldTexturesFolder;
+        public bool copyTextures;
         public string name;
 
         [XmlIgnore]
         public bool unsavedChanges;
+
+        [XmlIgnore]
+        public Dictionary<string, int> nameToIndex = new Dictionary<string, int>();
 
         public Tiles()
         {
@@ -27,7 +32,7 @@ namespace GridLevelLib
 
         public void CreateTile(string tileName, string texName)
         {
-            tiles.Add(tiles.Count + 1, new TileInfo(tileName, texName));
+            tiles.Add(tileName, new TileInfo(tileName, texName));
             unsavedChanges = true;
         }
 
@@ -37,9 +42,9 @@ namespace GridLevelLib
             unsavedChanges = false;
         }
 
-        public void RemoveTile(int index)
+        public void RemoveTile(string name)
         {
-            tiles.Remove(index);
+            tiles.Remove(name);
             unsavedChanges = true;
         }
 
@@ -51,14 +56,14 @@ namespace GridLevelLib
             name = loadedTileset.name;
         }
 
-        public TileInfo GetTileInfo(int tileIndex)
+        public TileInfo GetTileInfo(string name)
         {
-            return tiles[tileIndex];
+            return tiles[name];
         }
 
-        public string GetTileTextureName(int tileIndex)
+        public string GetTileTextureName(string name)
         {
-            return tiles[tileIndex].textureName;
+            return tiles[name].textureName;
         }
 
         public string GetName()
@@ -79,11 +84,33 @@ namespace GridLevelLib
 
         public void SetTexturesFolder(string newPath)
         {
-            if (!Directory.Exists(newPath))
+            if (!Directory.Exists(newPath) && newPath != "/Textures/")
                 Directory.CreateDirectory(newPath);
+
+            if (newPath == "/Textures/")
+                SetOldTexturesFolder(textureFolder);
 
             textureFolder = newPath;
             unsavedChanges = true;
+        }
+
+        public string GetOldTexturesFolder()
+        {
+            return oldTexturesFolder;
+        }
+
+        public void SetOldTexturesFolder(string newPath)
+        {
+            oldTexturesFolder = newPath;
+            unsavedChanges = true;
+        }
+
+        public void RenameTile(string tileName, string newTileName)
+        {
+            TileInfo newTile = tiles[tileName];
+            newTile.name = newTileName;
+            tiles.Remove(tileName);
+            tiles.Add(newTileName, newTile);
         }
     }
 }

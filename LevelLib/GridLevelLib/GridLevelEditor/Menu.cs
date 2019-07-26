@@ -28,5 +28,10 @@ namespace GridLevelEditor
             tilesEditor.Show();
             Hide();
         }
+
+        private void Menu_Load(object sender, EventArgs e)
+        {
+            TilesSaver.Init();
+        }
     }
 }

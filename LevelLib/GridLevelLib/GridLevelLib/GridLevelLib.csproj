@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableDictionary.cs" />
     <Compile Include="TileInfo.cs" />
     <Compile Include="Tiles.cs" />
     <Compile Include="XmlLoader.cs" />

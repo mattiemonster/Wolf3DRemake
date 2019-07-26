@@ -46,6 +46,14 @@
             this.savePropertiesButton = new MetroFramework.Controls.MetroButton();
             this.unsavedPropertiesWarning = new MetroFramework.Controls.MetroLabel();
             this.tilesUnsavedChanges = new MetroFramework.Controls.MetroLabel();
+            this.copyTexturesCheckbox = new MetroFramework.Controls.MetroCheckBox();
+            this.loadTilesFolderButton = new MetroFramework.Controls.MetroButton();
+            this.tileNameTextbox = new MetroFramework.Controls.MetroTextBox();
+            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
+            this.tileImageList = new System.Windows.Forms.ImageList(this.components);
+            this.loadImagesButton = new MetroFramework.Controls.MetroButton();
+            this.texturesBox = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,16 +64,18 @@
             // 
             // tilesBox
             // 
+            this.tilesBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tilesBox.Enabled = false;
+            this.tilesBox.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.tilesBox.FormattingEnabled = true;
-            this.tilesBox.Location = new System.Drawing.Point(42, 118);
+            this.tilesBox.Location = new System.Drawing.Point(42, 144);
             this.tilesBox.Name = "tilesBox";
-            this.tilesBox.Size = new System.Drawing.Size(176, 277);
+            this.tilesBox.Size = new System.Drawing.Size(176, 251);
             this.tilesBox.TabIndex = 0;
             // 
             // loadTilesButton
             // 
-            this.loadTilesButton.Location = new System.Drawing.Point(133, 89);
+            this.loadTilesButton.Location = new System.Drawing.Point(42, 117);
             this.loadTilesButton.Name = "loadTilesButton";
             this.loadTilesButton.Size = new System.Drawing.Size(85, 23);
             this.loadTilesButton.TabIndex = 1;
@@ -77,7 +87,7 @@
             // 
             this.saveTilesButton.Location = new System.Drawing.Point(42, 89);
             this.saveTilesButton.Name = "saveTilesButton";
-            this.saveTilesButton.Size = new System.Drawing.Size(85, 23);
+            this.saveTilesButton.Size = new System.Drawing.Size(176, 23);
             this.saveTilesButton.TabIndex = 2;
             this.saveTilesButton.Text = "Save";
             this.saveTilesButton.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -100,6 +110,7 @@
             this.addTileButton.TabIndex = 3;
             this.addTileButton.Text = "Add";
             this.addTileButton.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.addTileButton.Click += new System.EventHandler(this.AddTileButton_Click);
             // 
             // metroLabel1
             // 
@@ -120,7 +131,7 @@
             this.metroLabel2.AutoSize = true;
             this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.metroLabel2.Location = new System.Drawing.Point(264, 59);
+            this.metroLabel2.Location = new System.Drawing.Point(288, 59);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(120, 25);
             this.metroLabel2.Style = MetroFramework.MetroColorStyle.Blue;
@@ -190,6 +201,7 @@
             this.browseForTexturePathButton.TabIndex = 12;
             this.browseForTexturePathButton.Text = "Browse";
             this.browseForTexturePathButton.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.browseForTexturePathButton.Click += new System.EventHandler(this.BrowseForTexturePathButton_Click);
             // 
             // savePropertiesButton
             // 
@@ -226,11 +238,96 @@
             this.tilesUnsavedChanges.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.tilesUnsavedChanges.UseStyleColors = true;
             // 
+            // copyTexturesCheckbox
+            // 
+            this.copyTexturesCheckbox.AutoSize = true;
+            this.copyTexturesCheckbox.Location = new System.Drawing.Point(577, 248);
+            this.copyTexturesCheckbox.Name = "copyTexturesCheckbox";
+            this.copyTexturesCheckbox.Size = new System.Drawing.Size(181, 15);
+            this.copyTexturesCheckbox.TabIndex = 16;
+            this.copyTexturesCheckbox.Text = "Copy textures to save location";
+            this.copyTexturesCheckbox.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.copyTexturesCheckbox.UseVisualStyleBackColor = true;
+            this.copyTexturesCheckbox.CheckedChanged += new System.EventHandler(this.CopyTexturesCheckbox_CheckedChanged);
+            // 
+            // loadTilesFolderButton
+            // 
+            this.loadTilesFolderButton.Location = new System.Drawing.Point(133, 117);
+            this.loadTilesFolderButton.Name = "loadTilesFolderButton";
+            this.loadTilesFolderButton.Size = new System.Drawing.Size(85, 23);
+            this.loadTilesFolderButton.TabIndex = 17;
+            this.loadTilesFolderButton.Text = "Load Folder";
+            this.loadTilesFolderButton.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // tileNameTextbox
+            // 
+            this.tileNameTextbox.Location = new System.Drawing.Point(300, 118);
+            this.tileNameTextbox.Name = "tileNameTextbox";
+            this.tileNameTextbox.Size = new System.Drawing.Size(174, 23);
+            this.tileNameTextbox.TabIndex = 19;
+            this.tileNameTextbox.Text = "New Tile";
+            this.tileNameTextbox.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // metroLabel6
+            // 
+            this.metroLabel6.AutoSize = true;
+            this.metroLabel6.Location = new System.Drawing.Point(288, 94);
+            this.metroLabel6.Name = "metroLabel6";
+            this.metroLabel6.Size = new System.Drawing.Size(69, 19);
+            this.metroLabel6.TabIndex = 18;
+            this.metroLabel6.Text = "Tile Name";
+            this.metroLabel6.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // metroLabel7
+            // 
+            this.metroLabel7.AutoSize = true;
+            this.metroLabel7.Location = new System.Drawing.Point(288, 154);
+            this.metroLabel7.Name = "metroLabel7";
+            this.metroLabel7.Size = new System.Drawing.Size(74, 19);
+            this.metroLabel7.TabIndex = 20;
+            this.metroLabel7.Text = "Tile Texture";
+            this.metroLabel7.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // tileImageList
+            // 
+            this.tileImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.tileImageList.ImageSize = new System.Drawing.Size(16, 16);
+            this.tileImageList.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // loadImagesButton
+            // 
+            this.loadImagesButton.Location = new System.Drawing.Point(368, 154);
+            this.loadImagesButton.Name = "loadImagesButton";
+            this.loadImagesButton.Size = new System.Drawing.Size(106, 23);
+            this.loadImagesButton.TabIndex = 21;
+            this.loadImagesButton.Text = "Load Images";
+            this.loadImagesButton.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.loadImagesButton.Click += new System.EventHandler(this.LoadImagesButton_Click);
+            // 
+            // texturesBox
+            // 
+            this.texturesBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.texturesBox.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.texturesBox.Location = new System.Drawing.Point(300, 183);
+            this.texturesBox.Name = "texturesBox";
+            this.texturesBox.Size = new System.Drawing.Size(174, 241);
+            this.texturesBox.StateImageList = this.tileImageList;
+            this.texturesBox.TabIndex = 23;
+            this.texturesBox.UseCompatibleStateImageBehavior = false;
+            this.texturesBox.View = System.Windows.Forms.View.SmallIcon;
+            // 
             // TilesEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.texturesBox);
+            this.Controls.Add(this.loadImagesButton);
+            this.Controls.Add(this.metroLabel7);
+            this.Controls.Add(this.tileNameTextbox);
+            this.Controls.Add(this.metroLabel6);
+            this.Controls.Add(this.loadTilesFolderButton);
+            this.Controls.Add(this.copyTexturesCheckbox);
             this.Controls.Add(this.tilesUnsavedChanges);
             this.Controls.Add(this.unsavedPropertiesWarning);
             this.Controls.Add(this.savePropertiesButton);
@@ -278,5 +375,13 @@
         private MetroFramework.Controls.MetroButton savePropertiesButton;
         private MetroFramework.Controls.MetroLabel unsavedPropertiesWarning;
         private MetroFramework.Controls.MetroLabel tilesUnsavedChanges;
+        private MetroFramework.Controls.MetroCheckBox copyTexturesCheckbox;
+        private MetroFramework.Controls.MetroButton loadTilesFolderButton;
+        private MetroFramework.Controls.MetroTextBox tileNameTextbox;
+        private MetroFramework.Controls.MetroLabel metroLabel6;
+        private MetroFramework.Controls.MetroLabel metroLabel7;
+        private System.Windows.Forms.ImageList tileImageList;
+        private MetroFramework.Controls.MetroButton loadImagesButton;
+        private System.Windows.Forms.ListView texturesBox;
     }
 }

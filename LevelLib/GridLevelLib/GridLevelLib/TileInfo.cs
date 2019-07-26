@@ -6,6 +6,12 @@
         public string textureName;
         public bool moveable;
 
+        public TileInfo()
+        {
+            name = "Unnamed";
+            moveable = false;
+        }
+
         public TileInfo(string name, string texName)
         {
             this.name = name;
