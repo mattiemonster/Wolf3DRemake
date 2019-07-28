@@ -74,6 +74,7 @@ public class LevelManager : MonoBehaviour
         pauseMenu.GetComponent<Animator>().Play("OpenMenu");
         GameObject.Find("Player").GetComponent<PlayerController>().acceptInput = false;
         GameObject.Find("PlayerCamera").GetComponent<PlayerMouseLook>().UnlockCursor();
+        timer.Stop();
         StartCoroutine(AllowAnimPlay(openMenuAnimTime));
         StartCoroutine(PauseMenuEnable(openMenuAnimTime, true));
         pauseMenuOpen = true;
@@ -98,6 +99,7 @@ public class LevelManager : MonoBehaviour
         pauseMenu.GetComponent<Animator>().Play("CloseMenu");
         GameObject.Find("Player").GetComponent<PlayerController>().acceptInput = true;
         GameObject.Find("PlayerCamera").GetComponent<PlayerMouseLook>().LockCursor();
+        timer.Start();
         StartCoroutine(AllowAnimPlay(closeMenuAnimTime));
         StartCoroutine(PauseMenuEnable(closeMenuAnimTime, false));
         pauseMenuOpen = false;
