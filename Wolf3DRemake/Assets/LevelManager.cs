@@ -3,6 +3,7 @@ using TMPro;
 using System.Timers;
 using System.Diagnostics;
 using System;
+using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,8 +17,16 @@ public class LevelManager : MonoBehaviour
 
     [Header("Scene References - Pause Menu")]
     public GameObject pauseMenu;
+    public TextMeshProUGUI levelNamePause;
+
+    [Header("Properties - Pause Menu")]
+    public float openMenuAnimTime;
+    public float closeMenuAnimTime;
 
     private Stopwatch timer = new Stopwatch();
+
+    private bool pauseMenuOpen = false;
+    private bool allowAnim = true;
 
     void Start()
     {
@@ -29,6 +38,7 @@ public class LevelManager : MonoBehaviour
         timer.Start();
 
         pauseMenu.SetActive(false);
+        levelNamePause.text = LevelLoader.levelToLoad;
     }
 
     void Update()
@@ -45,6 +55,48 @@ public class LevelManager : MonoBehaviour
                 ts.TotalMinutes, ts.Seconds, ts.Milliseconds / 10);
             timerText.text = "Time: " + elapsedTime;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!allowAnim) return;
+
+            if (pauseMenuOpen)
+                CloseMenu();
+            else
+                OpenMenu();
+        }
+    }
+
+    public void OpenMenu()
+    {
+        pauseMenu.SetActive(true);
+        allowAnim = false;
+        pauseMenu.GetComponent<Animator>().Play("OpenMenu");
+        StartCoroutine(AllowAnimPlay(openMenuAnimTime));
+        StartCoroutine(PauseMenuEnable(openMenuAnimTime, true));
+        pauseMenuOpen = true;
+    }
+
+    public IEnumerator AllowAnimPlay(float time)
+    {
+        yield return new WaitForSeconds(time);
+        allowAnim = true;
+    }
+
+    public IEnumerator PauseMenuEnable(float time, bool value)
+    {
+        yield return new WaitForSeconds(time);
+        pauseMenu.SetActive(value);
+    }
+
+    public void CloseMenu()
+    {
+        pauseMenu.SetActive(true);
+        allowAnim = false;
+        pauseMenu.GetComponent<Animator>().Play("CloseMenu");
+        StartCoroutine(AllowAnimPlay(closeMenuAnimTime));
+        StartCoroutine(PauseMenuEnable(closeMenuAnimTime, false));
+        pauseMenuOpen = false;
     }
 
 }
