@@ -240,4 +240,11 @@ public class LevelEditor : MonoBehaviour
         return prefabNames[currentTile];
     }
 
+    public void SaveAndPlay()
+    {
+        SaveLevel();
+        LevelLoader.levelToLoad = levelName;
+        SceneManager.LoadSceneAsync("Level");
+    }
+
 }

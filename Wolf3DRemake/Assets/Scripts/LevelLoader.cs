@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Xml.Serialization;
 
 public class LevelLoader : MonoBehaviour
 {
+    // TODO Ceiling and floor colours
+
     public static string levelToLoad;
     public List<TileInfo> tiles = new List<TileInfo>();
 

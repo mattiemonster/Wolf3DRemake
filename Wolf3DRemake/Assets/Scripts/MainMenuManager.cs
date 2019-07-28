@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -46,7 +44,7 @@ public class MainMenuManager : MonoBehaviour
         } else
         {
             LevelLoader.levelToLoad = mapNameInput.text;
-            SceneManager.LoadScene("Level");
+            SceneManager.LoadSceneAsync("Level");
         }
     }
 
