@@ -75,6 +75,12 @@ public class LevelEditor : MonoBehaviour
 
         InitPrefabList();
         SelectTile(1);
+
+        if (LevelManager.loadedFromEditor)
+        {
+            loadLevelInput.text = LevelLoader.levelToLoad;
+            OpenLevel(new StreamReader(Application.persistentDataPath + "/Wolf3DLevels/" + LevelLoader.levelToLoad + ".xml"));
+        }
     }
 
     public void InitPrefabList()
@@ -249,6 +255,7 @@ public class LevelEditor : MonoBehaviour
     public void SaveAndPlay()
     {
         SaveLevel();
+        LevelManager.loadedFromEditor = true;
         LevelLoader.levelToLoad = levelName;
         SceneManager.LoadSceneAsync("Level");
     }

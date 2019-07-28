@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
-using System.Timers;
 using System.Diagnostics;
 using System;
 using System.Collections;
@@ -18,10 +18,14 @@ public class LevelManager : MonoBehaviour
     [Header("Scene References - Pause Menu")]
     public GameObject pauseMenu;
     public TextMeshProUGUI levelNamePause;
+    public TextMeshProUGUI exitPause;
 
     [Header("Properties - Pause Menu")]
     public float openMenuAnimTime;
     public float closeMenuAnimTime;
+
+    [HideInInspector]
+    public static bool loadedFromEditor;
 
     private Stopwatch timer = new Stopwatch();
 
@@ -39,6 +43,9 @@ public class LevelManager : MonoBehaviour
 
         pauseMenu.SetActive(false);
         levelNamePause.text = LevelLoader.levelToLoad;
+        if (loadedFromEditor) exitPause.text = "Return to Editor";
+
+        Destroy(GameObject.Find("Main Camera"));
     }
 
     void Update()
@@ -108,6 +115,14 @@ public class LevelManager : MonoBehaviour
     public bool IsPauseMenuOpen()
     {
         return pauseMenuOpen;
+    }
+
+    public void Quit()
+    {
+        if (loadedFromEditor)
+            SceneManager.LoadScene("Editor");
+        else
+            SceneManager.LoadScene("Menu");
     }
 
 }

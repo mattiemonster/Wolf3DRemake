@@ -43,6 +43,7 @@ public class MainMenuManager : MonoBehaviour
             mapNameInputText.color = Color.red;
         } else
         {
+            LevelManager.loadedFromEditor = false;
             LevelLoader.levelToLoad = mapNameInput.text;
             SceneManager.LoadSceneAsync("Level");
         }
