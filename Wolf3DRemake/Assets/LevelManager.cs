@@ -6,13 +6,16 @@ using System;
 
 public class LevelManager : MonoBehaviour
 {
-    [Header("Scene References")]
+    [Header("Scene References - Debug UI")]
     public LevelLoader loader;
     public GameObject debugUI;
     public TextMeshProUGUI levelName;
     public TextMeshProUGUI tileCount;
     public TextMeshProUGUI killCount;
     public TextMeshProUGUI timerText;
+
+    [Header("Scene References - Pause Menu")]
+    public GameObject pauseMenu;
 
     private Stopwatch timer = new Stopwatch();
 
@@ -24,6 +27,8 @@ public class LevelManager : MonoBehaviour
         killCount.text = "Kills: 0/" + loader.enemyCount.ToString();
         timerText.text = "Time: 00:00";
         timer.Start();
+
+        pauseMenu.SetActive(false);
     }
 
     void Update()
