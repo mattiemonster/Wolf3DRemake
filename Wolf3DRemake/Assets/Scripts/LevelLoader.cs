@@ -9,6 +9,7 @@ public class LevelLoader : MonoBehaviour
 
     public static string levelToLoad;
     public List<TileInfo> tiles = new List<TileInfo>();
+    public int enemyCount = 0;
 
     void Start()
     {
