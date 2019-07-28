@@ -42,7 +42,8 @@ public class LevelLoader : MonoBehaviour
     {
         for (int i = 0; i < tiles.Count; i++)
         {
-            Instantiate(Resources.Load(tiles[i].prefabName), tiles[i].position, Quaternion.identity);
+            GameObject go = (GameObject)Instantiate(Resources.Load(tiles[i].prefabName), tiles[i].position, Quaternion.identity);
+            go.name = tiles[i].prefabName;
         }
     }
 

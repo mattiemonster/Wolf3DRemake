@@ -26,18 +26,33 @@ public class PlayerMouseLook : MonoBehaviour
             transform.eulerAngles = (Vector2)rotation * speed;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && cursorLocked)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = false;
-            cursorLocked = false;
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape) && cursorLocked)
+        //{
+        //    Cursor.lockState = CursorLockMode.None;
+        //    Cursor.visible = true;
+        //    cursorLocked = false;
+        //}
 
-        if (Input.GetMouseButtonDown(0) && !cursorLocked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            cursorLocked = true;
-        }
+        //if (Input.GetMouseButtonDown(0) && !cursorLocked
+        //    && !(GameObject.Find("Manager").GetComponent<LevelManager>().IsPauseMenuOpen()))
+        //{
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //    Cursor.visible = false;
+        //    cursorLocked = true;
+        //}
+    }
+
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        cursorLocked = true;
+    }
+
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        cursorLocked = false;
     }
 }

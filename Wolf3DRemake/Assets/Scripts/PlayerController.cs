@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 
     public float speed = 6.0f;
     public float gravity = 20.0f;
+    public bool acceptInput = true;
 
     private Vector3 moveDirection = Vector3.zero;
 
@@ -16,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!acceptInput) return;
+
         float horizInput = Input.GetAxis("Horizontal") * speed;
         float vertInput = Input.GetAxis("Vertical") * speed;
 
