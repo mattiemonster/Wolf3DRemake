@@ -62,6 +62,7 @@
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUI.cs" />
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUtils.cs" />
+     <Compile Include="Assets\LevelManager.cs" />
      <Compile Include="Assets\Scripts\EditorCamera.cs" />
      <Compile Include="Assets\Scripts\LevelEditor.cs" />
      <Compile Include="Assets\Scripts\LevelLoader.cs" />
