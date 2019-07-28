@@ -11,6 +11,7 @@ public class LevelEditor : MonoBehaviour
     [Header("Editor Values")]
     public List<TileInfo> tiles = new List<TileInfo>();
     public string levelName = "Untitled";
+    public bool mouseOverButton = false;
 
     [Header("Scene References")]
     public TextMeshProUGUI levelNameText;
@@ -173,7 +174,11 @@ public class LevelEditor : MonoBehaviour
         {
             if (tiles[i].prefabName == "Player")
             {
+                if (selectionBox.hasPlacedPlayer) continue;
+
                 tiles[i].gameObject = (GameObject)Instantiate(Resources.Load("EditorPlayer"), tiles[i].position, Quaternion.identity);
+                selectionBox.hasPlacedPlayer = true;
+                selectionBox.playerPosition = tiles[i].position;
             }
             else
             {
@@ -215,8 +220,9 @@ public class LevelEditor : MonoBehaviour
         Application.Quit();
     }
 
-    public void ReturnToMenu()
+    public void ReturnToMenu(bool save)
     {
+        if (save) SaveLevel();
         SceneManager.LoadSceneAsync("Menu");
     }
 
@@ -245,6 +251,11 @@ public class LevelEditor : MonoBehaviour
         SaveLevel();
         LevelLoader.levelToLoad = levelName;
         SceneManager.LoadSceneAsync("Level");
+    }
+
+    public void MouseOverButton(bool value)
+    {
+        mouseOverButton = value;
     }
 
 }

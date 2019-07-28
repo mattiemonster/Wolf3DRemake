@@ -11,8 +11,11 @@ public class SelectionBox : MonoBehaviour
 
     private TileInfo previousObject;
     private Vector3 defaultPoint = new Vector3(0, 1, 0);
-    private bool hasPlacedPlayer = false;
-    private Vector3 playerPosition;
+
+    [HideInInspector]
+    public bool hasPlacedPlayer = false;
+    [HideInInspector]
+    public Vector3 playerPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -72,6 +75,8 @@ public class SelectionBox : MonoBehaviour
 
     public void Place(Vector3 location, string prefabName)
     {
+        if (editor.mouseOverButton) return;
+
         if (location == defaultPoint) return;
 
         if (Physics.CheckSphere(location, 0.2f))
