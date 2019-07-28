@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -21,6 +22,24 @@ public class LevelEditor : MonoBehaviour
     public TMP_InputField loadLevelInput;
     public GameObject levelNotFoundText;
     public GameObject exitEditorDialog;
+
+    [Header("Tile Selection UI")]
+    public GameObject selectionUIParent;
+    public string tile1Prefab;
+    public string tile2Prefab;
+    public string tile3Prefab;
+    public string tile4Prefab;
+    public string tile5Prefab;
+    public string tile6Prefab;
+    public string tile7Prefab;
+    public string tile8Prefab;
+    public string tile9Prefab;
+    public string tile0Prefab;
+    public Color unselectedColour;
+    public Color selectedColour;
+
+    private string[] prefabNames = new string[10];
+    private int currentTile = 0;
 
     void Start()
     {
@@ -52,6 +71,32 @@ public class LevelEditor : MonoBehaviour
         if (!exitEditorDialog)
             Debug.LogError("Exit editor dialog reference is unassigned!");
         #endregion
+
+        InitPrefabList();
+        SelectTile(1);
+    }
+
+    public void InitPrefabList()
+    {
+        prefabNames[0] = tile0Prefab;
+        prefabNames[1] = tile1Prefab;
+        prefabNames[2] = tile2Prefab;
+        prefabNames[3] = tile3Prefab;
+        prefabNames[4] = tile4Prefab;
+        prefabNames[5] = tile5Prefab;
+        prefabNames[6] = tile6Prefab;
+        prefabNames[7] = tile7Prefab;
+        prefabNames[8] = tile8Prefab;
+        prefabNames[9] = tile9Prefab;
+    }
+
+    public void SelectTile(int index)
+    {
+        selectionUIParent.transform.Find("Tile0" + currentTile.ToString())
+            .GetComponent<Image>().color = unselectedColour;
+        currentTile = index;
+        selectionUIParent.transform.Find("Tile0" + currentTile.ToString())
+            .GetComponent<Image>().color = selectedColour;
     }
 
     public void RenameLevel(string newName)
@@ -126,7 +171,14 @@ public class LevelEditor : MonoBehaviour
     {
         for (int i = 0; i < tiles.Count; i++)
         {
-            tiles[i].gameObject = (GameObject)Instantiate(Resources.Load(tiles[i].prefabName), tiles[i].position, Quaternion.identity);
+            if (tiles[i].prefabName == "Player")
+            {
+                tiles[i].gameObject = (GameObject)Instantiate(Resources.Load("EditorPlayer"), tiles[i].position, Quaternion.identity);
+            }
+            else
+            {
+                tiles[i].gameObject = (GameObject)Instantiate(Resources.Load(tiles[i].prefabName), tiles[i].position, Quaternion.identity);
+            }
         }
     }
 
@@ -181,6 +233,11 @@ public class LevelEditor : MonoBehaviour
         exitEditorDialog.SetActive(false);
         selectionBox.acceptInput = true;
         editorCamera.acceptInput = true;
+    }
+
+    public string GetCurrentPrefab()
+    {
+        return prefabNames[currentTile];
     }
 
 }

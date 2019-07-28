@@ -13,6 +13,8 @@ public class SelectionBox : MonoBehaviour
 
     private TileInfo previousObject;
     private Vector3 defaultPoint = new Vector3(0, 1, 0);
+    private bool hasPlacedPlayer = false;
+    private Vector3 playerPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,27 @@ public class SelectionBox : MonoBehaviour
                 previousObject = null;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            editor.SelectTile(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            editor.SelectTile(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+            editor.SelectTile(3);
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+            editor.SelectTile(4);
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+            editor.SelectTile(5);
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+            editor.SelectTile(6);
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+            editor.SelectTile(7);
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+            editor.SelectTile(8);
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+            editor.SelectTile(9);
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+            editor.SelectTile(0);
     }
 
     public void Place(Vector3 location, string prefabName)
@@ -56,9 +79,30 @@ public class SelectionBox : MonoBehaviour
         if (Physics.CheckSphere(location, 0.2f))
             return;
 
-        GameObject newObject = Instantiate(Resources.Load(prefabName, typeof(GameObject)), location, Quaternion.identity) as GameObject;
-        newObject.name = prefabName;
-        TileInfo tile = new TileInfo(location, prefabName, newObject);
+        if (string.IsNullOrEmpty(editor.GetCurrentPrefab()))
+            return;
+
+        string prefab = editor.GetCurrentPrefab();
+
+        if (prefab == "Player")
+        {
+            if (hasPlacedPlayer)
+                Remove(playerPosition);
+
+            prefab = "EditorPlayer";
+            playerPosition = location;
+            hasPlacedPlayer = true;
+        }
+        GameObject newObject = Instantiate(Resources.Load(prefab, typeof(GameObject)), location, Quaternion.identity) as GameObject;
+        newObject.name = prefab;
+        TileInfo tile;
+        if (prefab == "EditorPlayer")
+        {
+            tile = new TileInfo(location, "Player", newObject);
+        } else
+        {
+            tile = new TileInfo(location, prefabName, newObject);
+        }
         editor.tiles.Add(tile);
 
         previousObject = tile;
@@ -72,6 +116,8 @@ public class SelectionBox : MonoBehaviour
             foreach (Collider collider in colliders)
             {
                 editor.tiles.Remove(editor.tiles.Find(item => item.gameObject == collider.gameObject));
+                if (playerPosition == location)
+                    hasPlacedPlayer = false;
                 Destroy(collider.gameObject);
             }
         }

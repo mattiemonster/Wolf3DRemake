@@ -45,7 +45,8 @@ public class MainMenuManager : MonoBehaviour
             mapNameInputText.color = Color.red;
         } else
         {
-            
+            LevelLoader.levelToLoad = mapNameInput.text;
+            SceneManager.LoadScene("Level");
         }
     }
 
@@ -57,6 +58,11 @@ public class MainMenuManager : MonoBehaviour
     public void ResetMapNameInputColour()
     {
         mapNameInputText.color = Color.black;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
 }
